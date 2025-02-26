@@ -6,15 +6,10 @@ from typing import Any
 
 import voluptuous as vol
 
-from homeassistant.config_entries import (
-    ConfigEntry,
-    ConfigFlow,
-    ConfigFlowResult,
-    OptionsFlow,
-)
+from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResult, OptionsFlow
 from homeassistant.const import CONF_API_KEY, CONF_LANGUAGE, CONF_MODE, CONF_NAME
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers import config_validation as cv
+import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.selector import (
     SelectSelector,
     SelectSelectorConfig,
@@ -37,6 +32,7 @@ from .const import (
     CONF_TRANSIT_MODE,
     CONF_TRANSIT_ROUTING_PREFERENCE,
     CONF_UNITS,
+    CONF_USE_ROUTES_API,
     DEFAULT_NAME,
     DEPARTURE_TIME,
     DOMAIN,
@@ -62,6 +58,7 @@ RECONFIGURE_SCHEMA = vol.Schema(
 CONFIG_SCHEMA = RECONFIGURE_SCHEMA.extend(
     {
         vol.Required(CONF_NAME, default=DEFAULT_NAME): cv.string,
+        vol.Optional(CONF_USE_ROUTES_API, default=False): cv.boolean,
     }
 )
 
@@ -131,6 +128,7 @@ OPTIONS_SCHEMA = vol.Schema(
                 translation_key=CONF_TRANSIT_ROUTING_PREFERENCE,
             )
         ),
+        vol.Optional(CONF_USE_ROUTES_API, default=False): cv.boolean,
     }
 )
 
